@@ -30,30 +30,24 @@ public class SessCookiePersistence
 	// function to construct UI
         public Component constructExtensionTab(MontoyaApi api)
         {
-                // setting up table
-                //DefaultTableModel tableModel = new DefaultTableModel();
-                //JTable testTable = new JTable(tableModel);
-
-                // adding columns -> not sure why these do not show up in the UI?
+                // adding columns
                 tableModel.addColumn("Id");
 		tableModel.addColumn("Site");
                 tableModel.addColumn("Session Cookie");
-                //tableModel.addRow(new Object[] {"site1", "cookie"});
-                //tableModel.addRow(new Object[] {"site2", "session"});
 
+		// getting any persistent cookies if they exist
 		getPersistedCookies(api);
-                //addPersistentCookie("url", "cookie", api);
 
-                return testTable;
+		// creating a scroll pane so the columns show up
+		JScrollPane scrollTable = new JScrollPane(testTable);
+
+                return scrollTable;
         }
 
         // function to add cookie to UI table
         public Component addCookieRow(String rowId, String siteUrl, String sessionCookie)
         {
-                //api.logging().logToOutput("Adding the values " + siteUrl + " and " + sessionCookie);
                 tableModel.addRow(new Object[] {rowId, siteUrl, sessionCookie});
-
-		//String rowNumber = Integer.toString(tableModel.getRowCount());
 
                 return null;
         }
@@ -143,7 +137,7 @@ public class SessCookiePersistence
 					// if we found the data we want to delete
 					if (!stringArray[i].equals(deleteId))
 					{
-						// making sure that the ids get updated so we don't have duplicate ids -> currently we will have duplicate ids until we reload the extension
+						// making sure that the ids get updated so we don't have duplicate ids -> id is always the column number
 						int thisRow = Integer.parseInt(stringArray[i]);
 						if(thisRow < num)
 						{
@@ -164,6 +158,10 @@ public class SessCookiePersistence
 
 				// if we removed any cookies, repopulate the table
 				getPersistedCookies(api);
+			}
+			else
+			{
+				api.logging().logToError("There is not a saved session cookie with the specified Id.");
 			}
 		}
 		catch (NumberFormatException e)

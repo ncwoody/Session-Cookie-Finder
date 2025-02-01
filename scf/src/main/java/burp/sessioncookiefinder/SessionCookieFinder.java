@@ -14,12 +14,6 @@ public class SessionCookieFinder implements BurpExtension
 {
 	private MontoyaApi api;
 
-	// defining table at the class level so it is accessible in all methods
-	//DefaultTableModel tableModel = new DefaultTableModel();
-	//JTable testTable = new JTable(tableModel);
-
-	//static final String SESSION_COOKIE_KEY = "Cookie Finder";
-
 	SessCookiePersistence persistentTable = new SessCookiePersistence(api);
 
 	@Override
@@ -27,7 +21,6 @@ public class SessionCookieFinder implements BurpExtension
 	{
 		this.api = api;
 		api.extension().setName("Session Cookie Finder");
-		//api.userInterface().registerContextMenuItemsProvider(new SessCookieContextMenuItemsProvider(api));
 		
 		// setting the table of session cookies on bottom??
 		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -60,7 +53,6 @@ public class SessionCookieFinder implements BurpExtension
 		splitPane.setDividerLocation(40);
 		
 		// UI tab
-		//api.userInterface().registerSuiteTab("Session Cookie Finder", persistentTable.constructExtensionTab(api));
 		api.userInterface().registerSuiteTab("Session Cookie Finder", splitPane);
 
 		// context menu
